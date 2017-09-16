@@ -11,9 +11,4 @@ gulp.task('dev:server', () => {
   });
 });
 
-gulp.task('build', () => 
-run('node ./node_modules/react-scripts/scripts/build.js ').exec()
-    .pipe(gulp.dest('output'))
-)
-
 gulp.task('default', ['dev:server']);
