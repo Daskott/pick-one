@@ -1,0 +1,20 @@
+Creating an optimized production build...
+Compiled successfully.
+
+File sizes after gzip:
+
+  98.65 KB  build/static/js/main.31f987cf.js
+  21.79 KB  build/static/css/main.32ce5e3d.css
+
+The project was built assuming it is hosted at the server root.
+To override this, specify the homepage in your package.json.
+For example, add this to build it for GitHub Pages:
+
+  "homepage" : "http://myname.github.io/myapp",
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  yarn global add serve
+  serve -s build
+

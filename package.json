@@ -1,0 +1,33 @@
+{
+  "name": "lunchify",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:5000",
+  "dependencies": {
+    "@google/maps": "^0.4.3",
+    "axios": "^0.16.2",
+    "body-parser": "^1.18.1",
+    "bootstrap": "^3.3.7",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.4",
+    "morgan": "^1.8.2",
+    "react": "^15.6.1",
+    "react-bootstrap": "^0.31.3",
+    "react-dom": "^15.6.1",
+    "react-scripts": "1.0.13"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-run": "^1.7.1",
+    "gulp-watch": "^4.3.11"
+  }
+}
