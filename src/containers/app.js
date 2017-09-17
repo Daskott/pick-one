@@ -10,7 +10,8 @@ import PlaceList from '../components/placeList';
 class App extends Component {
   constructor(props){
       super(props);
-      this.state = { places: [], isLoading: false, error:'' };
+      this.state = { places: [], isLoading: false, error:'', showRandomPlace: false, randomPlace: []};
+      this.handleRandomPickPlace = this.handleRandomPickPlace.bind(this);
   }
   
   componentDidMount(){
@@ -37,10 +38,19 @@ class App extends Component {
       })
   }
 
+  handleRandomPickPlace(){
+    const { places } = this.state;
+    if (places.length <= 0) return;
+    const randomIndex = Math.floor(Math.random() * places.length);
+    this.setState({ randomPlace: [places[randomIndex]], showRandomPlace: true });
+  }
+
   render() {
     let PlaceListComponent = null;
     if (this.state.isLoading) 
       PlaceListComponent = <p className="blue"><strong>Loading...</strong></p>;
+    else if (this.state.showRandomPlace)
+      PlaceListComponent = <PlaceList places={this.state.randomPlace}></PlaceList>;
     else
       PlaceListComponent = <PlaceList places={this.state.places}></PlaceList>;
 
@@ -48,15 +58,14 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
         </div>
 
         <div className="padding-default">
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-          </p>
           <div className="panel panel-default content">
-            <div className="panel-heading"><h2>Places Nearby</h2></div>
+            <div className="panel-heading"><h2>Places Nearby</h2> 
+              <a href="#" onClick={this.handleRandomPickPlace}>Random Pick</a> |	&nbsp; 
+              <a href="#" onClick={ () => this.setState({ showRandomPlace: false })}>Show All</a> 
+            </div>
             <div>{ PlaceListComponent }</div>
           </div>
         </div>
