@@ -12,7 +12,7 @@ import PlaceList from '../components/placeList';
 class App extends Component {
   constructor(props){
       super(props);
-      this.state = {isLoadingLocation: false, error:'', showRandomPlace: false};
+      this.state = {isLoadingLocation: false, error: null, showRandomPlace: false};
       this.handleRandomPickPlace = this.handleRandomPickPlace.bind(this);
       this.handleShowAllPlacess = this.handleShowAllPlacess.bind(this);
   }
@@ -52,12 +52,12 @@ class App extends Component {
     const { isLoadingLocation, error} = this.state;
 
     // updating places & its status
-    if ((isLoadingLocation || fetchPlacesStatus.isLoading) && error === '') 
+    if ((isLoadingLocation || fetchPlacesStatus.loading) && !error) 
       PlaceListComponent = <p className="blue"><strong>Loading...</strong></p>;
     else if (this.state.showRandomPlace)
       PlaceListComponent = <PlaceList places={ [places[randomPlaceIndex]] }></PlaceList>;
-    else if (error !== '')
-      return <div className="content"><h4>Oops! {error}</h4></div> // Improve
+    else if (error || fetchPlacesStatus.error)
+      return <div className="content"><h4>Oops! {error || fetchPlacesStatus.error}</h4></div> // Improve
     else
       PlaceListComponent = <PlaceList places={ places }></PlaceList>;
 
