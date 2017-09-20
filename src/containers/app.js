@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux'
+import { receivePlaces, setRandomPlaceIndex, setLocation, fetchPlaces } from '../redux/actions'
 import logo from '../logo.svg';
 import '../app.css';
 import axios from 'axios';
@@ -10,49 +12,54 @@ import PlaceList from '../components/placeList';
 class App extends Component {
   constructor(props){
       super(props);
-      this.state = { places: [], isLoading: false, error:'', showRandomPlace: false, randomPlace: []};
+      this.state = {isLoadingLocation: false, error:'', showRandomPlace: false};
       this.handleRandomPickPlace = this.handleRandomPickPlace.bind(this);
+      this.handleShowAllPlacess = this.handleShowAllPlacess.bind(this);
   }
   
   componentDidMount(){
       const self = this;
       if (!navigator.geolocation){ 
-        return this.setState({error: 'pele! your browser does not support this'});
+        return this.setState({error: 'This application requires your location to work properly.'});
       }
 
-      this.setState({ isLoading: true });
+      this.setState({ isLoadingLocation: true });
       navigator.geolocation.getCurrentPosition((position) => {
+        this.setState({ isLoadingLocation: false });
         const location = `${String(position.coords.latitude)},${String(position.coords.longitude)}`;
-        axios.get(`/api/places/?location=${location}`)
-        .then((response) => {
-          const result = response.data;
-            if (result.success){
-                const data = result.data;
-                self.setState({ places: data, isLoading: false });
-            }
-        })
-        .catch((error) => {
-            console.log("Error: ", error);
-            this.setState({ isLoading: false });
-        });
+        self.props.setLocation(location);
+        self.props.fetchPlaces(location);
       })
   }
 
-  handleRandomPickPlace(){
-    const { places } = this.state;
+  handleRandomPickPlace() {
+    const { places } = this.props;
     if (places.length <= 0) return;
     const randomIndex = Math.floor(Math.random() * places.length);
-    this.setState({ randomPlace: [places[randomIndex]], showRandomPlace: true });
+    this.props.setRandomPlaceIndex(randomIndex);
+    this.setState({ showRandomPlace: true });
+  }
+
+  handleShowAllPlacess() {
+    if (!this.state.showRandomPlace) return;
+    this.props.setRandomPlaceIndex(-1);
+    this.setState({ showRandomPlace: false });
   }
 
   render() {
     let PlaceListComponent = null;
-    if (this.state.isLoading) 
+    const { places, randomPlaceIndex, fetchPlacesStatus} = this.props;
+    const { isLoadingLocation, error} = this.state;
+
+    // updating places & its status
+    if ((isLoadingLocation || fetchPlacesStatus.isLoading) && error === '') 
       PlaceListComponent = <p className="blue"><strong>Loading...</strong></p>;
     else if (this.state.showRandomPlace)
-      PlaceListComponent = <PlaceList places={this.state.randomPlace}></PlaceList>;
+      PlaceListComponent = <PlaceList places={ [places[randomPlaceIndex]] }></PlaceList>;
+    else if (error !== '')
+      return <div className="content"><h4>Oops! {error}</h4></div> // Improve
     else
-      PlaceListComponent = <PlaceList places={this.state.places}></PlaceList>;
+      PlaceListComponent = <PlaceList places={ places }></PlaceList>;
 
     return (
       <div className="App">
@@ -63,8 +70,8 @@ class App extends Component {
         <div className="padding-default">
           <div className="panel panel-default content">
             <div className="panel-heading"><h2>Places Nearby</h2> 
-              <a href="#" onClick={this.handleRandomPickPlace}>Random Pick</a> |	&nbsp; 
-              <a href="#" onClick={ () => this.setState({ showRandomPlace: false })}>Show All</a> 
+              <a href="#" onClick={ this.handleRandomPickPlace }>Random Pick</a> |	&nbsp; 
+              <a href="#" onClick={ this.handleShowAllPlacess }>Show All</a> 
             </div>
             <div>{ PlaceListComponent }</div>
           </div>
@@ -74,4 +81,29 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+    places: state.places,
+    fetchPlacesStatus: state.fetchPlacesStatus,
+    location: state.location,
+    randomPlaceIndex: state.randomPlaceIndex
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchPlaces: (location) => {
+    dispatch(fetchPlaces(location))
+  },
+  receivePlaces: (listOfPlaces) => {
+    dispatch(receivePlaces(listOfPlaces))
+  },
+  setRandomPlaceIndex: (index) => {
+    dispatch(setRandomPlaceIndex(index))
+  },
+  setLocation: (location) => {
+    dispatch(setLocation(location))
+  }
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
