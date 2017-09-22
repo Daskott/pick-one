@@ -34,10 +34,10 @@ const randomPlaceIndex = (state = -1, action) => {
   }
 }
 
-const location = (state = '', action) => {
+const location = (state = {}, action) => {
   switch (action.type) {
     case ActionTypes.SET_LOCATION:
-      return action.location
+      return action.position
     default:
       return state
   }

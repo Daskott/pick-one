@@ -1,5 +1,6 @@
 import * as ActionTypes from '../action_types';
 import axios from 'axios';
+import { getNearbyPlaces } from '../../google'
 
 export const receivePlaces = (places) => ({
     type: ActionTypes.RECEIVE_PLACES,
@@ -13,11 +14,22 @@ export const setFetchPlaceStatus = (type, loading, error) => ({
 });
 
 //Async Action
-export const fetchPlaces = (location) => 
+export const fetchPlaces = (position) => 
     // returns a dispatcher
     (dispatch) => { 
         dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_LOADING , true, ''));
-        return axios.get(`/api/places/?location=${location}`)
+        return getNearbyPlaces(position, (error, results) => {
+            if (!error){
+                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_SUCCESS, false, ''));
+                dispatch(receivePlaces(results));
+            } else {
+                console.log("Error: ", error);
+                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_FAIL, false, error));
+                throw (error);
+            }
+            
+        })
+        /*return axios.get(`/api/places/?location=${location}`)
         .then((response) => {
             const result = response.data;
             if (result.success){
@@ -30,7 +42,7 @@ export const fetchPlaces = (location) =>
             console.log("Error: ", error);
             dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_FAIL, false, error));
             throw (error);
-        })
+        })*/
     }
 
  
@@ -39,7 +51,7 @@ export const setRandomPlaceIndex = (index) => ({
     index
 });
 
-export const setLocation = (location) => ({
+export const setLocation = (position) => ({
     type: ActionTypes.SET_LOCATION,
-    location
+    position
 });
