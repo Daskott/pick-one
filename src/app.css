@@ -1,8 +1,11 @@
+/* ================================================
+  General
+* ================================================ */
 html, body, #root {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background-color: #eee;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #E0DFE5;
   height: 100%;
 }
 
@@ -17,13 +20,20 @@ html, body, #root {
 }
 
  .App-body {
+  width: 100%;
   overflow: auto;
-  height: 100%;
+  height: 100%; 
+  margin-top: 100px;
 } 
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  font-family: 'Varela Round', sans-serif;
+  background-color: #5E376C;
+  z-index: 5;
+  top:0;
+  position: fixed;
+  width:100%;
+  height: 100px;
   padding: 20px;
   color: white;
 }
@@ -32,16 +42,48 @@ html, body, #root {
   font-size: large;
 }
 
+/* ================================================
+  DRY
+* ================================================ */
 .padding-default {
   padding: 8px;
 }
+.bold{
+  font-weight: bold;
+}
 
+.card {
+  min-height: 90px; 
+  margin: 8px;
+  overflow: visible;
+  border-radius: 4px;
+  color: #616161;
+  padding-left: 32px;
+  background-color: #fff; 
+  font-weight: 400;
+  padding: 8px; 
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+/* ================================================
+  Elements
+* ================================================ */
 .place-list,
 .content{
   margin: auto;
-  max-width: 450px;
+  max-width: 450px; 
 }
 
+.place{
+  margin-bottom: -1px;
+}
 .place-list{
   text-align: left;
   margin: 0;
@@ -52,10 +94,21 @@ html, body, #root {
 } 
 .place-item{
   display: block;
+  font-size: 0.85em;
 }
+.place-name{
+  font-family: 'Varela Round', sans-serif;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+.place-address{
+  font-size: 0.85em;
+}
+
 .place-Image{
    max-height: 100%; 
    max-width: 100%; 
+   border-radius: 2px;
 }
 .image-wrapper{
   float: left;
@@ -65,31 +118,119 @@ html, body, #root {
   height: 70px;
   width: 70px;
   margin-right: 8px;
-  padding: 8px;
+  padding: 6px;
   border-radius: 5px;
   background-color: #222;
 }
 
-/*******************************
-Colors
-********************************/
+.shrug-emoji {
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+/* ================================================
+  Colors
+* ================================================ */
 .blue{ color: #01579b; }
 .red{ color: #e53935; }
 .green{ color: #43A047; }
 .white{ color: #fff; }
 
-.card {
-  min-height: 90px; 
-  margin: 8px;
-  overflow: visible;
-  border-radius: 4px;
-  color: #616161;
-  padding-left: 32px;
-  /* font-size: 18px; */
-  font-weight: 400;
-}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+
+/* ================================================
+  Flip Animation
+* ================================================ */
+
+/* entire container, keeps perspective */
+.flip-container {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+/* flip the pane when class flip added */
+.flip-container.flip .flipper {
+  transform: rotateY(-180deg);
+}
+
+.flip-container, .front, .back {
+   /* width: 100%;    */
+	height: 100%; 
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+  position: relative; 
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+  width: 95.5%; /*HACK */
+  margin-top: -0.1px; /*HACK */
+  background: #FCC04F;
+  color: #fff;
+  font-weight: bold; 
+	transform: rotateY(180deg);
+}
+
+/* ================================================
+  React Css Transition Group
+* ================================================ */
+
+/* start enter state */
+.slide-enter {
+  transform: translateX(-20%);
+}
+
+/* end enter state */
+.slide-enter.slide-enter-active {
+  transform: translateX(0);
+  transition: transform 0.5s ease-out;
+}
+
+/* start exit state */
+.slide-exit {
+ transform: translateX(0);
+}
+
+/* end exit state */
+.slide-exit.slide-exit-active {
+  transform: translateX(20%);
+  opacity: 0;
+  transition: 0.2s ease-in;
+}
+
+/* initial mounting */
+.slide-appear {
+  opacity: 0;
+}
+
+.slide-appear.slide-appear-active {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
 }

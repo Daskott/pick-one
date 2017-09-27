@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
-import { receivePlaces, setRandomPlaceIndex, setLocation, fetchPlaces } from '../redux/actions'
+import { receivePlaces, setLocation, fetchPlaces } from '../redux/actions'
+import { BounceLoader } from 'react-spinners';
+import { SpinnerWrapper, PlaceListHeader } from '../components/common'
 import logo from '../logo.svg';
 import '../app.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -11,9 +13,9 @@ import PlaceList from '../components/placeList';
 class App extends Component {
   constructor(props){
       super(props);
-      this.state = {isLoadingLocation: false, error: null, showRandomPlace: false};
+      this.state = {isLoadingLocation: false, error: null, flipCards: false};
       this.handleRandomPickPlace = this.handleRandomPickPlace.bind(this);
-      this.handleShowAllPlacess = this.handleShowAllPlacess.bind(this);
+      this.handleRefreshList = this.handleRefreshList.bind(this);
   }
   
   componentDidMount(){
@@ -52,47 +54,64 @@ class App extends Component {
   }
 
   handleRandomPickPlace() {
-    const { places } = this.props;
-    if (places.length <= 0) return;
-    const randomIndex = Math.floor(Math.random() * places.length);
-    this.props.setRandomPlaceIndex(randomIndex);
-    this.setState({ showRandomPlace: true });
+    const flippedPlaces = Array.from(this.props.places);
+    const flip = !this.state.flipCards;
+    let temp = null;
+    let randomIndex = null;
+    this.setState({ flipCards: !this.state.flipCards});
+    if (flip === false) return;
+
+    // shuffle items arround in flippedPlaces array
+    for (let i = 0; i < flippedPlaces.length; i++){
+      temp = flippedPlaces[i];
+      randomIndex =  Math.floor(Math.random() * flippedPlaces.length);
+      flippedPlaces.splice(i, 1); // remove 1 item at i-index position
+      flippedPlaces.splice(randomIndex, 0, temp); // insert temp at randomIndex-index position
+    }
+    setTimeout( () => this.props.receivePlaces(flippedPlaces), 500);
   }
 
-  handleShowAllPlacess() {
-    if (!this.state.showRandomPlace) return;
-    this.props.setRandomPlaceIndex(-1);
-    this.setState({ showRandomPlace: false });
+  handleRefreshList() {
+    // delay only if cards are flipped over backwards
+    const delay = this.state.flipCards ? 400 : 0;
+    this.setState({ flipCards: false});
+    setTimeout(() => this.props.fetchPlaces(this.props.location), delay);
   }
 
+  
   render() {
     let PlaceListComponent = null;
     const { places, randomPlaceIndex, fetchPlacesStatus} = this.props;
-    const { isLoadingLocation, error} = this.state;
-
-    // updating places & its status
-    if ((isLoadingLocation || fetchPlacesStatus.loading) && !error) 
-      PlaceListComponent = <span>Getting placess nearby...</span>;
-    else if (this.state.showRandomPlace)
-      PlaceListComponent = <PlaceList places={ [places[randomPlaceIndex]] }></PlaceList>;
-    else if (error || fetchPlacesStatus.error)
+    const { isLoadingLocation, error, flipCards} = this.state;
+    const isLoading = (isLoadingLocation || fetchPlacesStatus.loading) && !error;
+    
+    if (error || fetchPlacesStatus.error)
       return <div className="content white"><h4>Oops! {error || fetchPlacesStatus.error}</h4></div> // Improve
     else
-      PlaceListComponent = <PlaceList places={ places }></PlaceList>;
+       PlaceListComponent = <PlaceList places={places} flipCards={flipCards}></PlaceList>;
 
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-           <div className="panel-heading">
-              <a href="#" onClick={ this.handleRandomPickPlace }>Random Pick</a>&nbsp; | &nbsp; 
-              <a href="#" onClick={ this.handleShowAllPlacess }>Show All</a> 
-            </div>
+          {/*<img src={logo} className="App-logo" alt="logo" />*/}
+          <div>
+              <h3>Lunchify</h3>
+          </div>
         </div>
+        
+        <div className="App-body">
+          <div className="content"> 
+            <PlaceListHeader>
+              <a href="#" onClick={ this.handleRandomPickPlace }>Flip 'n Pick</a>&nbsp; | &nbsp; 
+              <a href="#" onClick={ this.handleRefreshList }>Refresh</a> 
+            </PlaceListHeader>
 
-        <div className="padding-default App-body">
-          <div className="panel panel-default content">
-            <div>{ PlaceListComponent }</div>
+            <SpinnerWrapper hide={!isLoading}>
+              <span>Getting nearby places...</span>
+              <BounceLoader color={'#ED3524'} size={36} loading={isLoading}/>
+            </SpinnerWrapper>
+
+            <div>{!isLoading ? PlaceListComponent : null}</div>
           </div>
         </div>
       </div>
@@ -113,9 +132,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   receivePlaces: (listOfPlaces) => {
     dispatch(receivePlaces(listOfPlaces))
-  },
-  setRandomPlaceIndex: (index) => {
-    dispatch(setRandomPlaceIndex(index))
   },
   setLocation: (position) => {
     dispatch(setLocation(position))

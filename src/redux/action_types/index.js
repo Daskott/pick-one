@@ -1,5 +1,4 @@
 export const RECEIVE_PLACES = 'places/RECEIVE_PLACES'
-export const FETCH_PLACES = 'places/FETCH_PLACELIST'
 export const FETCH_PLACES_SUCCESS = 'places/FETCH_PLACES_SUCCESS'
 export const FETCH_PLACES_FAIL = 'places/FETCH_PLACES_FAIL'
 export const FETCH_PLACES_LOADING = 'places/FETCH_PLACES_LOADING'
