@@ -21,23 +21,39 @@ html, body, #root {
 
  .App-body {
   width: 100%;
-  overflow: auto;
+  overflow: auto; 
   height: 100%; 
-  margin-top: 100px;
+  background: linear-gradient(rgba(224, 223, 229, 0.55), rgba(224, 223, 229, 0.55)),
+  rgba(224,223,229,0.55) url('/assets/img/restaurant_icons.png');
 } 
+
+.default-content{
+  margin-top: 10%;
+  height: 100%;
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.2em;
+}
 
 .App-header {
   font-family: 'Varela Round', sans-serif;
   background-color: #5E376C;
   z-index: 5;
   top:0;
-  position: fixed;
   width:100%;
-  height: 100px;
-  padding: 20px;
+  height: 170px;
+  padding-top: 20px;
   color: white;
 }
 
+.nav-bar{ 
+  align-items: center;
+  margin-top:16px; 
+  height: 50px; 
+  background-color:#49334F;
+  padding: 12px;
+  padding-top: 14px;
+}
 .App-intro {
   font-size: large;
 }
@@ -62,6 +78,12 @@ html, body, #root {
   background-color: #fff; 
   font-weight: 400;
   padding: 8px; 
+  box-shadow: 0 4px 8px 0  rgba(46, 61, 73, 0.2);
+  transition: 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 a:link,
@@ -81,9 +103,11 @@ a:active {
   max-width: 450px; 
 }
 
-.place{
-  margin-bottom: -1px;
+.place-container{
+  margin: 12px 0px;
+  cursor: pointer;
 }
+.place{ margin-bottom: -1px;}
 .place-list{
   text-align: left;
   margin: 0;
@@ -128,6 +152,40 @@ a:active {
   vertical-align: middle;
 }
 
+.search-bar{
+  margin: 8px;
+  text-align: center;
+}
+
+.search-button button{
+  margin-top: 8px;
+}
+
+.search-title{
+  font-size: 1.4em;
+}
+.search-input{
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+  border: honeydew;
+  color: #222;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-size: 1em;
+  border-radius: 2px;
+  outline: none;
+}
+.search-suggestion-icon{font-size: 24px; margin: 4px;}
+.search-suggestion-item{
+  padding: 4px;
+  text-align: left;
+}
+.autocomplete-container{
+  margin-top: 2px;
+  z-index: 1000;
+  perspective: 10001px;
+  position: relative;
+}
 /* ================================================
   Colors
 * ================================================ */
@@ -150,7 +208,6 @@ a:active {
 /* entire container, keeps perspective */
 .flip-container {
   perspective: 1000px;
-  cursor: pointer;
 }
 
 /* flip the pane when class flip added */
@@ -159,7 +216,6 @@ a:active {
 }
 
 .flip-container, .front, .back {
-   /* width: 100%;    */
 	height: 100%; 
 }
 
@@ -197,6 +253,7 @@ a:active {
   font-weight: bold; 
 	transform: rotateY(180deg);
 }
+
 
 /* ================================================
   React Css Transition Group

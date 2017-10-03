@@ -19,7 +19,7 @@ const fetchPlacesStatus = (state = { loading: false, error: null }, action) => {
     case ActionTypes.FETCH_PLACES_SUCCESS:
       return Object.assign({}, state, { loading: action.loading })
     case ActionTypes.FETCH_PLACES_FAIL:
-      return Object.assign({}, state, { loading: action.loading, action: action.error })
+      return Object.assign({}, state, { loading: action.loading, error: action.error })
     default:
       return state
   }
@@ -37,7 +37,7 @@ const randomPlaceIndex = (state = -1, action) => {
 const location = (state = {}, action) => {
   switch (action.type) {
     case ActionTypes.SET_LOCATION:
-      return action.position
+      return action.location
     default:
       return state
   }

@@ -1,5 +1,5 @@
 import * as ActionTypes from '../action_types';
-import { getNearbyPlaces } from '../../google'
+import { getNearbyPlacesbyAddress, getNearbyPlaces } from '../../google'
 
 export const receivePlaces = (places) => ({
     type: ActionTypes.RECEIVE_PLACES,
@@ -13,16 +13,32 @@ export const setFetchPlaceStatus = (type, loading, error) => ({
 });
 
 //Async Action
-export const fetchPlaces = (position) => 
+export const fetchPlacesByAdress = (adderess) => 
     // returns a dispatcher
     (dispatch) => { 
-        dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_LOADING , true, ''));
-        return getNearbyPlaces(position, (error, results) => {
+        dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_LOADING , true, null));
+        return getNearbyPlacesbyAddress(adderess, (error, data) => {
             if (!error){
-                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_SUCCESS, false, ''));
+                dispatch(setLocation(data.location));
+                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_SUCCESS, false, null));
+                dispatch(receivePlaces(data.results));
+            } else {
+                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_FAIL, false, error));
+                throw (error);
+            }
+            
+        })
+    }
+
+//Async Action
+export const fetchPlacesByGeocode = (latitude, longitude) => 
+    (dispatch) => { 
+        dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_LOADING , true));
+        return getNearbyPlaces(latitude, longitude, (error, results) => {
+            if (!error){
+                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_SUCCESS, false));
                 dispatch(receivePlaces(results));
             } else {
-                console.log("Error: ", error);
                 dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_FAIL, false, error));
                 throw (error);
             }
@@ -36,7 +52,7 @@ export const setRandomPlaceIndex = (index) => ({
     index
 });
 
-export const setLocation = (position) => ({
+export const setLocation = (location) => ({
     type: ActionTypes.SET_LOCATION,
-    position
+    location
 });

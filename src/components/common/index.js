@@ -9,14 +9,16 @@ export const SpinnerWrapper = styled.div`
     align-items: center
   `;
 
-  export const PlaceListHeader = styled.div`
-    z-index:5;
-    padding:8px;
-    align-items: center
-    min-height: 30px; 
-    margin: 8px;
-    border-radius: 4px;
+export const NavButton = styled.span`
+  cursor: pointer;
+  margin:8px;
+  padding:8px;
+  border: 2px solid #FCC04F;
+  color: #FCC04F;
+  border-radius: 4px;
+  &:hover {
+    background-color:#FCC04F;
     color: #fff;
-    background-color: #FCC04F; 
-    font-weight: 400;
-  `;
+    border: 2px solid #fff;
+  }
+`;

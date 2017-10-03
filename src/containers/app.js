@@ -1,59 +1,27 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
-import { receivePlaces, setLocation, fetchPlaces } from '../redux/actions'
+import { receivePlaces, setLocation, fetchPlacesByAdress, fetchPlacesByGeocode } from '../redux/actions'
 import { BounceLoader } from 'react-spinners';
-import { SpinnerWrapper, PlaceListHeader } from '../components/common'
-import logo from '../logo.svg';
+import { SpinnerWrapper, NavButton } from '../components/common'
 import '../app.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'react-bootstrap';
 import PlaceList from '../components/placeList';
+import SearchBar from '../components/searchBar';
 
 class App extends Component {
   constructor(props){
       super(props);
-      this.state = {isLoadingLocation: false, error: null, flipCards: false};
+      this.state = {isLoadingLocation: false, flipCards: false};
       this.handleRandomPickPlace = this.handleRandomPickPlace.bind(this);
       this.handleRefreshList = this.handleRefreshList.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
   }
   
-  componentDidMount(){
-    const self = this;
-    if (!navigator.geolocation){ 
-      return this.setState({error: 'This application requires your location to work properly.'});
-    }
-    
-    var geoOptions = {
-      maximumAge: 5 * 60 * 1000
-    }
-
-    const geoSuccess = (position) => {
-      const currentPosition = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }
-      self.props.setLocation(currentPosition);
-      self.props.fetchPlaces(currentPosition);
-      self.setState({ isLoadingLocation: false });
-    }
-
-    const geoError = (error) => {
-      console.log(`Error occurred. Error code: ${  error.code}`);
-      self.setState({ isLoadingLocation: false, error: error.message });
-      // error.code can be:
-      //   0: unknown error
-      //   1: permission denied
-      //   2: position unavailable (error response from location provider)
-      //   3: timed out
-    }
-
-    // TODO: Request user location Onclick
-    this.setState({ isLoadingLocation: true });
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
-  }
-
   handleRandomPickPlace() {
+    if (!this.props.places || this.props.places.length <= 0) return;
+
     const flippedPlaces = Array.from(this.props.places);
     const flip = !this.state.flipCards;
     let temp = null;
@@ -72,47 +40,59 @@ class App extends Component {
   }
 
   handleRefreshList() {
-    // delay only if cards are flipped over backwards
+    if (!this.props.location || Object.keys(this.props.location) <= 0) return;
+
+    // delay refresh only if cards are flipped over backwards
     const delay = this.state.flipCards ? 400 : 0;
     this.setState({ flipCards: false});
-    setTimeout(() => this.props.fetchPlaces(this.props.location), delay);
+    setTimeout(() => this.props.fetchPlacesByGeocode(
+            this.props.location.latitude, 
+            this.props.location.longitude), 
+            delay);
+  }
+
+  handleSearch(address){ 
+    if (address.trim() === '') return;
+    this.props.fetchPlacesByAdress(address);
   }
 
   
   render() {
-    let PlaceListComponent = null;
-    const { places, randomPlaceIndex, fetchPlacesStatus} = this.props;
+    const { places, fetchPlacesStatus} = this.props;
     const { isLoadingLocation, error, flipCards} = this.state;
     const isLoading = (isLoadingLocation || fetchPlacesStatus.loading) && !error;
-    
-    if (error || fetchPlacesStatus.error)
-      return <div className="content white"><h4>Oops! {error || fetchPlacesStatus.error}</h4></div> // Improve
-    else
-       PlaceListComponent = <PlaceList places={places} flipCards={flipCards}></PlaceList>;
+    const PlaceListComponent = <PlaceList places={places} flipCards={flipCards}></PlaceList>;
+    const currentAddress = this.props.location ? this.props.location.address : null;
 
     return (
       <div className="App">
         <div className="App-header">
-          {/*<img src={logo} className="App-logo" alt="logo" />*/}
-          <div>
-              <h3>Lunchify</h3>
+          {/*<div><h4 className="pull-left">Lunchify</h4></div>*/}
+          <SearchBar onSearch={this.handleSearch} currentAddress={currentAddress}/>
+          <div className="nav-bar">
+            <NavButton onClick={ this.handleRandomPickPlace }>Flip 'n Pick</NavButton>
+            <NavButton onClick={ this.handleRefreshList }>Refresh</NavButton> 
           </div>
         </div>
         
         <div className="App-body">
           <div className="content"> 
-            <PlaceListHeader>
-              <a href="#" onClick={ this.handleRandomPickPlace }>Flip 'n Pick</a>&nbsp; | &nbsp; 
-              <a href="#" onClick={ this.handleRefreshList }>Refresh</a> 
-            </PlaceListHeader>
 
             <SpinnerWrapper hide={!isLoading}>
               <span>Getting nearby places...</span>
               <BounceLoader color={'#ED3524'} size={36} loading={isLoading}/>
             </SpinnerWrapper>
 
+            { fetchPlacesStatus.error ? <div className="red"><strong>Oops!</strong>{` ${fetchPlacesStatus.error}`}</div> : null }
             <div>{!isLoading ? PlaceListComponent : null}</div>
           </div>
+
+          { places.length <= 0 && !isLoading? 
+            <div className="default-content">
+              <p>Picking a restautrant doesn't have to be hard</p>
+              <p>Give me a try 😁👆</p>
+            </div> : null
+          }
         </div>
       </div>
     );
@@ -127,8 +107,11 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchPlaces: (location) => {
-    dispatch(fetchPlaces(location))
+  fetchPlacesByAdress: (location) => {
+    dispatch(fetchPlacesByAdress(location))
+  },
+  fetchPlacesByGeocode: (latitude, longitude) => {
+    dispatch(fetchPlacesByGeocode(latitude, longitude))
   },
   receivePlaces: (listOfPlaces) => {
     dispatch(receivePlaces(listOfPlaces))

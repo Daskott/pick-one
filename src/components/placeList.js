@@ -44,7 +44,7 @@ class Place extends React.Component {
         const flipClass = this.state.flipCard ? ' flip' : '';
  
         return (
-            <div className={`flip-container${flipClass}`} onClick={this.handleFlipCard}>
+            <div className={`flip-container place-container${flipClass}`} onClick={this.handleFlipCard}>
                 <div className="flipper">
                     <div className="card front place">
                         <span className="pull-right label label-default">{String(this.props.place.rating).length < 3? `${place.rating}.0`: place.rating}</span>
