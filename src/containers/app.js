@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
-import { receivePlaces, setLocation, fetchPlacesByAdress, fetchPlacesByGeocode } from '../redux/actions'
+import { receivePlaces, setLocation, fetchPlacesByAdress, fetchPlacesByGeocode, setRandomPlaceIndex } from '../redux/actions'
 import { BounceLoader } from 'react-spinners';
-import { SpinnerWrapper, NavButton } from '../components/common'
+import { SpinnerWrapper, NavBar, NavButton } from '../components/common'
 import '../app.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
@@ -13,13 +13,15 @@ import SearchBar from '../components/searchBar';
 class App extends Component {
   constructor(props){
       super(props);
-      this.state = {isLoadingLocation: false, flipCards: false};
-      this.handleRandomPickPlace = this.handleRandomPickPlace.bind(this);
+      this.state = {isLoadingLocation: false, flipCards: false, showRandomPlace: false};
+      this.handleFlipAndPickPlace = this.handleFlipAndPickPlace.bind(this);
+      this.handlePickRandomPlace = this.handlePickRandomPlace.bind(this);
       this.handleRefreshList = this.handleRefreshList.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
   }
   
-  handleRandomPickPlace() {
+  handleFlipAndPickPlace() {
+    this.setState({showRandomPlace: false});
     if (!this.props.places || this.props.places.length <= 0) return;
 
     const flippedPlaces = Array.from(this.props.places);
@@ -39,7 +41,24 @@ class App extends Component {
     setTimeout( () => this.props.receivePlaces(flippedPlaces), 500);
   }
 
+  handlePickRandomPlace() {
+    const {places, setRandomPlaceIndex, randomPlaceIndex} = this.props;
+    if (!places || places.length <= 0) return;
+
+    let index = Math.floor(Math.random() * places.length);
+    if (index === randomPlaceIndex){
+      if (index + 1 < places.length){
+        index+=1;
+      } else if (index - 1 >= 0){ 
+        index-=1;
+      }
+    }
+    setRandomPlaceIndex(index);
+    this.setState({showRandomPlace: true});
+  }
+
   handleRefreshList() {
+    this.setState({showRandomPlace: false});
     if (!this.props.location || Object.keys(this.props.location) <= 0) return;
 
     // delay refresh only if cards are flipped over backwards
@@ -54,25 +73,38 @@ class App extends Component {
   handleSearch(address){ 
     if (address.trim() === '') return;
     this.props.fetchPlacesByAdress(address);
+    this.setState({ flipCards: false});
   }
 
   
   render() {
-    const { places, fetchPlacesStatus} = this.props;
-    const { isLoadingLocation, error, flipCards} = this.state;
+    const { places, fetchPlacesStatus, randomPlaceIndex} = this.props;
+    const { isLoadingLocation, error, flipCards, showRandomPlace} = this.state;
     const isLoading = (isLoadingLocation || fetchPlacesStatus.loading) && !error;
-    const PlaceListComponent = <PlaceList places={places} flipCards={flipCards}></PlaceList>;
     const currentAddress = this.props.location ? this.props.location.address : null;
+
+    let PlaceListComponent = null;
+    if (showRandomPlace){ 
+      PlaceListComponent = <PlaceList places={[places[randomPlaceIndex]]}></PlaceList>;
+    } else {
+      PlaceListComponent = <PlaceList places={places} flipCards={flipCards}></PlaceList>;
+    }
 
     return (
       <div className="App">
         <div className="App-header">
-          {/*<div><h4 className="pull-left">Lunchify</h4></div>*/}
           <SearchBar onSearch={this.handleSearch} currentAddress={currentAddress}/>
-          <div className="nav-bar">
-            <NavButton onClick={ this.handleRandomPickPlace }>Flip 'n Pick</NavButton>
-            <NavButton onClick={ this.handleRefreshList }>Refresh</NavButton> 
-          </div>
+          <NavBar>
+            <NavButton 
+              hide={places.length <= 0}
+              onClick={this.handleFlipAndPickPlace}><i className="fa fa-exchange" aria-hidden="true"></i> Flip 'n Pick</NavButton>
+            <NavButton 
+              hide={places.length <= 0}
+              onClick={this.handlePickRandomPlace}><i className="fa fa-random" aria-hidden="true"></i> Random</NavButton>
+            <NavButton
+              hide={places.length <= 0} 
+              onClick={this.handleRefreshList}><i className="fa fa-refresh" aria-hidden="true"></i> Refresh</NavButton> 
+          </NavBar>
         </div>
         
         <div className="App-body">
@@ -118,6 +150,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setLocation: (position) => {
     dispatch(setLocation(position))
+  },
+  setRandomPlaceIndex: (index) => {
+    dispatch(setRandomPlaceIndex(index))
   }
 })
 

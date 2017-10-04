@@ -54,7 +54,7 @@ class Place extends React.Component {
                         { hoursElement }
                     </div>
                     <div className="card back place">
-                        <div className=""> #Random</div>
+                        {/** **/}
                     </div>
                 </div>
             </div>

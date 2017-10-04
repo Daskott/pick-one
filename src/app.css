@@ -23,8 +23,11 @@ html, body, #root {
   width: 100%;
   overflow: auto; 
   height: 100%; 
+
+  /* Background pattern from Subtle Patterns <https://www.toptal.com/designers/subtlepatterns/> */
   background: linear-gradient(rgba(224, 223, 229, 0.55), rgba(224, 223, 229, 0.55)),
   rgba(224,223,229,0.55) url('/assets/img/restaurant_icons.png');
+  background-size:contain;
 } 
 
 .default-content{
@@ -46,14 +49,7 @@ html, body, #root {
   color: white;
 }
 
-.nav-bar{ 
-  align-items: center;
-  margin-top:16px; 
-  height: 50px; 
-  background-color:#49334F;
-  padding: 12px;
-  padding-top: 14px;
-}
+
 .App-intro {
   font-size: large;
 }
@@ -248,10 +244,13 @@ a:active {
 .back {
   width: 95.5%; /*HACK */
   margin-top: -0.1px; /*HACK */
-  background: #FCC04F;
   color: #fff;
   font-weight: bold; 
-	transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  
+  /* Background pattern from Subtle Patterns <https://www.toptal.com/designers/subtlepatterns/> */
+  background: url('/assets/img/food.png');
+  background-size:contain;
 }
 
 
