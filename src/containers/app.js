@@ -1,8 +1,19 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
-import { receivePlaces, setLocation, fetchPlacesByAdress, fetchPlacesByGeocode, setRandomPlaceIndex } from '../redux/actions'
+import {receivePlaces, 
+        setLocation, 
+        fetchPlacesByAdress, 
+        fetchPlacesByGeocode, 
+        setRandomPlaceIndex 
+        } from '../redux/actions'
 import { BounceLoader } from 'react-spinners';
-import { SpinnerWrapper, NavBar, NavButton } from '../components/common'
+import {AppWrapper,
+        AppHeader, 
+        AppBody, 
+        NavBar, 
+        NavButton,
+        SpinnerWrapper
+        } from '../components/common/styles'
 import '../app.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
@@ -91,8 +102,8 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
-        <div className="App-header">
+      <AppWrapper>
+        <AppHeader>
           <SearchBar onSearch={this.handleSearch} currentAddress={currentAddress}/>
           <NavBar>
             <NavButton 
@@ -105,9 +116,9 @@ class App extends Component {
               hide={places.length <= 0} 
               onClick={this.handleRefreshList}><i className="fa fa-refresh" aria-hidden="true"></i> Refresh</NavButton> 
           </NavBar>
-        </div>
+        </AppHeader>
         
-        <div className="App-body">
+        <AppBody>
           <div className="content"> 
 
             <SpinnerWrapper hide={!isLoading}>
@@ -125,8 +136,8 @@ class App extends Component {
               <p>Give me a try 😁👆</p>
             </div> : null
           }
-        </div>
-      </div>
+        </AppBody>
+      </AppWrapper>
     );
   }
 }

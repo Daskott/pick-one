@@ -9,26 +9,10 @@ html, body, #root {
   height: 100%;
 }
 
-.App {
-  text-align: center;
-  height: 100%;
-}
-
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
-
- .App-body {
-  width: 100%;
-  overflow: auto; 
-  height: 100%; 
-
-  /* Background pattern from Subtle Patterns <https://www.toptal.com/designers/subtlepatterns/> */
-  background: linear-gradient(rgba(224, 223, 229, 0.55), rgba(224, 223, 229, 0.55)),
-  rgba(224,223,229,0.55) url('/assets/img/restaurant_icons.png');
-  background-size:contain;
-} 
 
 .default-content{
   margin-top: 10%;
@@ -36,22 +20,6 @@ html, body, #root {
   width: 100%;
   font-weight: bold;
   font-size: 1.2em;
-}
-
-.App-header {
-  font-family: 'Varela Round', sans-serif;
-  background-color: #5E376C;
-  z-index: 5;
-  top:0;
-  width:100%;
-  height: 170px;
-  padding-top: 20px;
-  color: white;
-}
-
-
-.App-intro {
-  font-size: large;
 }
 
 /* ================================================
@@ -141,11 +109,6 @@ a:active {
   padding: 6px;
   border-radius: 5px;
   background-color: #222;
-}
-
-.shrug-emoji {
-  font-size: 20px;
-  vertical-align: middle;
 }
 
 .search-bar{

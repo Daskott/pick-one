@@ -38,8 +38,6 @@ class Place extends React.Component {
         if (place.opening_hours) { 
             const isOpen = place.opening_hours ? place.opening_hours.open_now : null;
             hoursElement = <span className={`place-item bold ${isOpen? 'green': 'red'}`}>{ isOpen ? 'Open' : 'Closed' }</span>;
-        } else {
-            hoursElement = <span className="shrug-emoji" role="img">🤷🏽</span>;
         }
         const flipClass = this.state.flipCard ? ' flip' : '';
  
