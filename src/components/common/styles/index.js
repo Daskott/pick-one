@@ -11,7 +11,7 @@ export const AppHeader = styled.div`
   z-index: 5;
   top:0;
   width:100%;
-  height: 170px;
+  height: 120px;
   padding-top: 20px;
   color: white;
 `;
@@ -39,11 +39,11 @@ export const SpinnerWrapper = styled.div`
 
 export const NavBar = styled.div`
   align-items: center;
-  margin-top:16px;
   height: 50px; 
   background-color:#49334F;
   padding: 12px;
   padding-top: 14px;
+  z-index: 1;
 `;
 
 export const NavButton = styled.span`
@@ -62,4 +62,35 @@ export const NavButton = styled.span`
     color: #fff;
     border: 1.5px solid #fff;
   }
+`;
+
+export const Card = styled.div`
+  min-height: ${(props) => props.height ? props.height : '90px'};
+  padding: 8px; 
+  margin: 8px;
+  font-weight: 400;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center
+  overflow: visible;
+
+  border-radius: 4px;
+  color: ${(props) => props.color ? props.color : '#222'};
+  background-color: ${(props) => props.backgroundColor ? props.backgroundColor : '#fff'};
+  
+  box-shadow: 0 4px 8px 0  rgba(46, 61, 73, 0.2);
+  transition: 0.3s;
+}
+`;
+
+export const Anchor = styled.span`
+  cursor: pointer;
+  color: ${(props) => props.color ? props.color : '#222'};
+  font-weight:bold;
+  text-decoration: underline;
+  &:hover{
+    color: ${(props) => props.color ? props.color : '#fff'};
+  }
+}
 `;

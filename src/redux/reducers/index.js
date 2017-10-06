@@ -15,11 +15,13 @@ const places = (state = [], action) => {
 const fetchPlacesStatus = (state = { loading: false, error: null }, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_PLACES_LOADING:
-      return Object.assign({}, state, { loading: action.loading })
+      return {loading: action.loading, error: action.error};
     case ActionTypes.FETCH_PLACES_SUCCESS:
-      return Object.assign({}, state, { loading: action.loading })
+      return {loading: action.loading, error: action.error};
     case ActionTypes.FETCH_PLACES_FAIL:
-      return Object.assign({}, state, { loading: action.loading, error: action.error })
+      return {loading: action.loading, error: action.error};
+    case ActionTypes.FETCH_PLACES_RESET_STATUS:
+      return {loading: false, error: null};
     default:
       return state
   }

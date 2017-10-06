@@ -9,19 +9,36 @@ export const getNearbyPlaces = (latitude, longitude, callback) => {
         types: ['restaurant']
     };
     return service.nearbySearch(request, (results, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) return callback(null, results);
-        callback('Unable to retrieve any result', null);
+        switch (status){
+            case google.maps.places.PlacesServiceStatus.OK:
+                callback(null, results);
+                break;
+            case google.maps.places.PlacesServiceStatus.ZERO_RESULTS:
+                callback(`Unable to find any restaurants nearby`, null);
+                break;
+            default:
+                console.log('STATUS: ', status);
+                callback(`Well that's embarassing, it would seem an error has occured`, null);
+                throw (status);
+        }
     });
 }
 
 export const getGeocodebyAddress = (address, callback) => {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode( { address}, (results, status) => {
-      if (status === 'OK') {
-         return callback(null, results);
-      } else {
-        callback(`Unable to retrieve any result for the following reason:${  status}`, null);
-      }
+        switch (status){
+            case google.maps.places.PlacesServiceStatus.OK:
+                callback(null, results);
+                break;
+            case google.maps.places.PlacesServiceStatus.ZERO_RESULTS:
+                callback(`Unable to find any location matching the address`, null);
+                break;
+            default:
+                console.log('STATUS: ', status);
+                callback(`Well that's embarassing, it would seem an error has occured`, null);
+                throw (status);
+        }
     });
 }
 

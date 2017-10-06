@@ -4,7 +4,8 @@ import {receivePlaces,
         setLocation, 
         fetchPlacesByAdress, 
         fetchPlacesByGeocode, 
-        setRandomPlaceIndex 
+        setRandomPlaceIndex,
+        resetFetchPlaceStatus 
         } from '../redux/actions'
 import { BounceLoader } from 'react-spinners';
 import {AppWrapper,
@@ -12,6 +13,8 @@ import {AppWrapper,
         AppBody, 
         NavBar, 
         NavButton,
+        Card,
+        Anchor,
         SpinnerWrapper
         } from '../components/common/styles'
 import '../app.css';
@@ -71,22 +74,20 @@ class App extends Component {
   handleRefreshList() {
     this.setState({showRandomPlace: false});
     if (!this.props.location || Object.keys(this.props.location) <= 0) return;
+    const { latitude, longitude, fetchPlacesByGeocode} = this.props.location;
 
     // delay refresh only if cards are flipped over backwards
     const delay = this.state.flipCards ? 400 : 0;
     this.setState({ flipCards: false});
-    setTimeout(() => this.props.fetchPlacesByGeocode(
-            this.props.location.latitude, 
-            this.props.location.longitude), 
-            delay);
+    setTimeout(() => fetchPlacesByGeocode(latitude, longitude), delay);
   }
 
   handleSearch(address){ 
     if (address.trim() === '') return;
-    this.props.fetchPlacesByAdress(address);
     this.setState({ flipCards: false});
+    this.props.receivePlaces([]);
+    this.props.fetchPlacesByAdress(address);
   }
-
   
   render() {
     const { places, fetchPlacesStatus, randomPlaceIndex} = this.props;
@@ -104,19 +105,22 @@ class App extends Component {
     return (
       <AppWrapper>
         <AppHeader>
-          <SearchBar onSearch={this.handleSearch} currentAddress={currentAddress}/>
-          <NavBar>
-            <NavButton 
-              hide={places.length <= 0}
-              onClick={this.handleFlipAndPickPlace}><i className="fa fa-exchange" aria-hidden="true"></i> Flip 'n Pick</NavButton>
-            <NavButton 
-              hide={places.length <= 0}
-              onClick={this.handlePickRandomPlace}><i className="fa fa-random" aria-hidden="true"></i> Random</NavButton>
-            <NavButton
-              hide={places.length <= 0} 
-              onClick={this.handleRefreshList}><i className="fa fa-refresh" aria-hidden="true"></i> Refresh</NavButton> 
-          </NavBar>
+          <SearchBar 
+            onSearch={this.handleSearch} 
+            currentAddress={currentAddress} 
+            error={fetchPlacesStatus.error}/>
         </AppHeader>
+        <NavBar>
+          <NavButton 
+            hide={places.length <= 0}
+            onClick={this.handleFlipAndPickPlace}><i className="fa fa-exchange" aria-hidden="true"></i> Flip 'n Pick</NavButton>
+          <NavButton 
+            hide={places.length <= 0}
+            onClick={this.handlePickRandomPlace}><i className="fa fa-random" aria-hidden="true"></i> Random</NavButton>
+          <NavButton
+            hide={places.length <= 0} 
+            onClick={this.handleRefreshList}><i className="fa fa-refresh" aria-hidden="true"></i> Refresh</NavButton> 
+        </NavBar>
         
         <AppBody>
           <div className="content"> 
@@ -126,14 +130,24 @@ class App extends Component {
               <BounceLoader color={'#ED3524'} size={36} loading={isLoading}/>
             </SpinnerWrapper>
 
-            { fetchPlacesStatus.error ? <div className="red"><strong>Oops!</strong>{` ${fetchPlacesStatus.error}`}</div> : null }
+            {/* Error Message (if any) */
+              fetchPlacesStatus.error ? 
+              <Card  height={'45px'} backgroundColor={'#e53935'} color={'#fff'}>
+                {`${fetchPlacesStatus.error} `}
+                <Anchor onClick={this.props.clearFetchPlacesError}>
+                  Cancel
+                </Anchor>
+              </Card> 
+              : null 
+            }
+
             <div>{!isLoading ? PlaceListComponent : null}</div>
           </div>
 
-          { places.length <= 0 && !isLoading? 
+          {!fetchPlacesStatus.error && places.length <= 0 && !isLoading? 
             <div className="default-content">
               <p>Picking a restautrant doesn't have to be hard</p>
-              <p>Give me a try 😁👆</p>
+              <p>Give me a try <span  role="img" aria-label="smile and point up">😁👆</span></p>
             </div> : null
           }
         </AppBody>
@@ -164,6 +178,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setRandomPlaceIndex: (index) => {
     dispatch(setRandomPlaceIndex(index))
+  },
+  clearFetchPlacesError: () => {
+    dispatch(resetFetchPlaceStatus());
   }
 })
 

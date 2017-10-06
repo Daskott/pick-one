@@ -50,14 +50,6 @@ html, body, #root {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
-a:link,
-a:visited,
-a:hover,
-a:active {
-  color: #fff;
-  font-weight: bold;
-  text-decoration: none;
-}
 /* ================================================
   Elements
 * ================================================ */
@@ -142,8 +134,17 @@ a:active {
 .autocomplete-container{
   margin-top: 2px;
   z-index: 1000;
-  perspective: 10001px;
   position: relative;
+}
+.autocompleteItemActive{
+  padding: 10px;
+  color: #555555;
+  cursor: 'pointer';
+  background-color: #fafafa;
+}
+
+.autocompleteItemActive .search__suggestion-icon{
+  color: #e53935;
 }
 /* ================================================
   Colors

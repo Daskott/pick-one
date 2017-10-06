@@ -1,5 +1,11 @@
 import React from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
+import styled from 'styled-components'; 
+
+const AutocompleteItemWrapper = styled.div`
+    padding: 4px;
+    text-align: left;
+`;
 
 class SearchBar extends React.Component {
     constructor(props){
@@ -7,6 +13,7 @@ class SearchBar extends React.Component {
         this.state = {searchText: ''};
         this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
     }
   
     handleSearchTextChange(newText){ 
@@ -17,29 +24,42 @@ class SearchBar extends React.Component {
        this.props.onSearch(this.state.searchText);
     }
 
+    handleSelect(address) {
+        this.setState({searchText: address});
+        this.props.onSearch(address);
+    }
+
     render() {
-        const currentAddress = this.props.currentAddress; 
+
+        const { currentAddress, error } = this.props; 
         const cssClasses = {
             root: 'has-feedback search-bar',
             input: 'search-input',
-            autocompleteContainer: 'autocomplete-container'
+            autocompleteContainer: 'autocomplete-container',
+            autocompleteItemActive: 'autocompleteItemActive'
         }
         const inputProps = {
             value: this.state.searchText,
-            placeholder: currentAddress || "Enter an address",
+            placeholder: error ? 'Enter an address' : currentAddress || "Enter an address",
             onChange: this.handleSearchTextChange
         }
+
         const AutocompleteItem = ({ formattedSuggestion }) => (
-            <div className="search-suggestion-item">
-                <i className='fa fa-map-marker search__suggestion-icon red'/>&nbsp;
-                <strong>{formattedSuggestion.mainText}</strong>{' '}
+            <AutocompleteItemWrapper>
+                <i className='fa fa-map-marker search__suggestion-icon'/>&nbsp;
+                <strong>{`${formattedSuggestion.mainText} `}</strong>
                 <small className="text-muted">{formattedSuggestion.secondaryText}</small>
-            </div>
+            </AutocompleteItemWrapper>
         )
         return (
             <div className="content">
-                <h3 className="search-title">Find a place to go eat <span>🍽</span></h3>
-                <PlacesAutocomplete inputProps={inputProps} classNames={cssClasses} onEnterKeyDown={this.handleSearch} autocompleteItem={AutocompleteItem}/>
+            {<h3 className="search-title">Find a place to go eat <span>🍽</span></h3>}
+                <PlacesAutocomplete 
+                    inputProps={inputProps} 
+                    classNames={cssClasses} 
+                    onSelect={this.handleSelect}
+                    onEnterKeyDown={this.handleSearch} 
+                    autocompleteItem={AutocompleteItem}/>
                 {/*<span className="search-button">
                     <button className="btn btn-default" type="button" onClick={this.handleSearch}>Search</button>
                 </span>*/}

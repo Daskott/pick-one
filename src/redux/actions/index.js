@@ -23,7 +23,8 @@ export const fetchPlacesByAdress = (adderess) =>
                 dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_SUCCESS, false, null));
                 dispatch(receivePlaces(data.results));
             } else {
-                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_FAIL, false, error));
+                const errorMessage = `${error} for "${adderess}"`;
+                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_FAIL, false, errorMessage));
                 throw (error);
             }
             
@@ -33,10 +34,10 @@ export const fetchPlacesByAdress = (adderess) =>
 //Async Action
 export const fetchPlacesByGeocode = (latitude, longitude) => 
     (dispatch) => { 
-        dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_LOADING , true));
+        dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_LOADING , true, null));
         return getNearbyPlaces(latitude, longitude, (error, results) => {
             if (!error){
-                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_SUCCESS, false));
+                dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_SUCCESS, false, null));
                 dispatch(receivePlaces(results));
             } else {
                 dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_FAIL, false, error));
@@ -46,11 +47,14 @@ export const fetchPlacesByGeocode = (latitude, longitude) =>
         })
     }
 
- 
 export const setRandomPlaceIndex = (index) => ({
     type: ActionTypes.SET_RANDOM_PLACE_INDEX,
     index
 });
+
+export const resetFetchPlaceStatus = () =>
+    (dispatch) => dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_RESET_STATUS, false, null));
+
 
 export const setLocation = (location) => ({
     type: ActionTypes.SET_LOCATION,
