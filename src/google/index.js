@@ -17,9 +17,8 @@ export const getNearbyPlaces = (latitude, longitude, callback) => {
                 callback(`Unable to find any restaurants nearby`, null);
                 break;
             default:
-                console.log('STATUS: ', status);
+                console.error('Error-Code: ', status);
                 callback(`Well that's embarassing, it would seem an error has occured`, null);
-                throw (status);
         }
     });
 }
@@ -35,9 +34,8 @@ export const getGeocodebyAddress = (address, callback) => {
                 callback(`Unable to find any location matching the address`, null);
                 break;
             default:
-                console.log('STATUS: ', status);
+                console.error('Error-Code: ', status);
                 callback(`Well that's embarassing, it would seem an error has occured`, null);
-                throw (status);
         }
     });
 }

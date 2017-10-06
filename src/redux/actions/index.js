@@ -25,7 +25,6 @@ export const fetchPlacesByAdress = (adderess) =>
             } else {
                 const errorMessage = `${error} for "${adderess}"`;
                 dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_FAIL, false, errorMessage));
-                throw (error);
             }
             
         })
@@ -41,7 +40,6 @@ export const fetchPlacesByGeocode = (latitude, longitude) =>
                 dispatch(receivePlaces(results));
             } else {
                 dispatch(setFetchPlaceStatus(ActionTypes.FETCH_PLACES_FAIL, false, error));
-                throw (error);
             }
             
         })
