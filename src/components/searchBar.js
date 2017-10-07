@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const AutocompleteItemWrapper = styled.div`
     padding: 4px;
     text-align: left;
+    font-size: 0.95em;
 `;
 
 class SearchBar extends React.Component {
@@ -36,11 +37,12 @@ class SearchBar extends React.Component {
             root: 'has-feedback search-bar',
             input: 'search-input',
             autocompleteContainer: 'autocomplete-container',
-            autocompleteItemActive: 'autocompleteItemActive'
+            autocompleteItemActive: 'autocompleteItemActive',
+            googleLogoContainer: 'googleLogoContainer'
         }
         const inputProps = {
             value: this.state.searchText,
-            placeholder: error ? 'Enter an address' : currentAddress || "Enter an address",
+            placeholder: "Search place",
             onChange: this.handleSearchTextChange
         }
 
@@ -53,7 +55,6 @@ class SearchBar extends React.Component {
         )
         return (
             <div className="content">
-            {<h3 className="search-title">Find a place to go eat <span>🍽</span></h3>}
                 <PlacesAutocomplete 
                     inputProps={inputProps} 
                     classNames={cssClasses} 

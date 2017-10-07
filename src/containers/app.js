@@ -73,13 +73,13 @@ class App extends Component {
 
   handleRefreshList() {
     this.setState({showRandomPlace: false});
-    if (!this.props.location || Object.keys(this.props.location) <= 0) return;
-    const { latitude, longitude, fetchPlacesByGeocode} = this.props.location;
+    const {location, fetchPlacesByGeocode} = this.props;
+    if (!location || !location.latitude || !location.longitude) return;
 
     // delay refresh only if cards are flipped over backwards
     const delay = this.state.flipCards ? 400 : 0;
     this.setState({ flipCards: false});
-    setTimeout(() => fetchPlacesByGeocode(latitude, longitude), delay);
+    setTimeout(() => fetchPlacesByGeocode(location.latitude, location.longitude), delay);
   }
 
   handleSearch(address){ 
@@ -105,6 +105,8 @@ class App extends Component {
     return (
       <AppWrapper>
         <AppHeader>
+          {<h3 className="search-title">Find a nearby place to go eat</h3>}  
+          {/*currentAddress*/}
           <SearchBar 
             onSearch={this.handleSearch} 
             currentAddress={currentAddress} 

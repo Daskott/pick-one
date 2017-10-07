@@ -146,6 +146,12 @@ html, body, #root {
 .autocompleteItemActive .search__suggestion-icon{
   color: #e53935;
 }
+
+.googleLogoContainer {
+  text-align: right;
+  padding: 4px;
+  background-color: #fafafa;
+}
 /* ================================================
   Colors
 * ================================================ */
