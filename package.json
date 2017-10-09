@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",
-  "homepage": "https://daskott.github.io/PickOne/",
   "dependencies": {
     "@google/maps": "^0.4.3",
     "bootstrap": "^3.3.7",
@@ -35,9 +34,7 @@
     "dev-server": "gulp",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
