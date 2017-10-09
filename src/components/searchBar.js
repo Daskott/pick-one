@@ -31,8 +31,6 @@ class SearchBar extends React.Component {
     }
 
     render() {
-
-        const { currentAddress, error } = this.props; 
         const cssClasses = {
             root: 'has-feedback search-bar',
             input: 'search-input',

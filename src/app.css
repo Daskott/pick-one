@@ -28,6 +28,11 @@ html, body, #root {
 .padding-default {
   padding: 8px;
 }
+
+.margin-default {
+  margin: 8px;
+}
+
 .bold{
   font-weight: bold;
 }
