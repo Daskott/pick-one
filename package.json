@@ -20,7 +20,12 @@
     "react-transition-group": "^2.2.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "styled-components": "^2.1.2"
+    "styled-components": "^2.1.2",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-run": "^1.7.1",
+    "gulp-watch": "^4.3.11",
+    "morgan": "^1.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -32,11 +37,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "eslint": "^3.19.0",
-    "gulp": "^3.9.1",
-    "gulp-nodemon": "^2.2.1",
-    "gulp-run": "^1.7.1",
-    "gulp-watch": "^4.3.11",
-    "morgan": "^1.9.0"
+    "eslint": "^3.19.0"
   }
 }
