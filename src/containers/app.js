@@ -105,8 +105,9 @@ class App extends Component {
     return (
       <AppWrapper>
         <AppHeader>
-          {<h3 className="search-title">Find a nearby place to go eat</h3>}  
-          {/*currentAddress*/}
+          
+          {<h3 className="search-title">Pick a nearby place to go eat!</h3>}  
+
           <SearchBar 
             onSearch={this.handleSearch} 
             currentAddress={currentAddress} 
