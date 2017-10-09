@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const AutocompleteItemWrapper = styled.div`
     padding: 4px;
     text-align: left;
-    font-size: 0.95em;
+    font-size: 1em;
 `;
 
 class SearchBar extends React.Component {

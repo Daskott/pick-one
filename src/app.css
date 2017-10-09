@@ -34,10 +34,10 @@ html, body, #root {
 }
 
 .place-container{
-  margin: 8px 0px;
+  margin: 12px 0px;
   cursor: pointer;
 }
-.place{ margin-bottom: -1px;}
+.place{ padding-top:10px; margin:4; margin-bottom: -1px;}
 .place-list{
   text-align: left;
   margin: 0;
@@ -48,15 +48,15 @@ html, body, #root {
 } 
 .place-item{
   display: block;
-  font-size: 0.85em;
+  font-size: 0.95em;
 }
 .place-name{
   font-family: 'Varela Round', sans-serif;
   font-weight: bold;
-  font-size: 0.9em;
+  font-size: 1.1em;
 }
 .place-address{
-  font-size: 0.85em;
+  font-size: 0.95em;
 }
 
 .place-Image{
@@ -69,8 +69,8 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 70px;
-  width: 70px;
+  height: 80px;
+  width: 80px;
   margin-right: 8px;
   padding: 6px;
   border-radius: 5px;
@@ -96,7 +96,7 @@ html, body, #root {
   display: block;
   width: 100%;
   padding: 8px;
-  font-size: 1em;
+  font-size: 1.1em;
   border-radius: 2px;
   outline: none;
 }

@@ -11,8 +11,7 @@ export const AppHeader = styled.div`
   z-index: 5;
   top:0;
   width:100%;
-  height: 120px;
-  padding-top: 20px;
+  height: 150px;
   color: white;
 `;
 
@@ -51,7 +50,7 @@ export const NavButton = styled.span`
   cursor: pointer;
   margin:4px;
   padding:6px;
-  font-size: 0.9em;
+  font-size: 1em;
   border: 1.5px solid #FFC801;
   color: #FFC801;
   border-radius: 25px;
@@ -68,30 +67,36 @@ export const DefaultContent = styled.div`
   margin-top: 20px;
   height: 50%;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 `;
 
-export const GitIconWrapper = styled.a`
-display: inline-block;
-cursor: pointer;
-margin:4px;
-margin-right:8px;
-color: #000;
-transition: 0.3s;
-&:hover,
-&:active,
-&:focus  {
-  color: #fff;
-}
+export const GitIconContainer= styled.div`
+  width:100%;
+  text-align:right;
+  margin:0;
+`;
+
+export const GitLinkWrapper = styled.a`
+  display: inline-block;
+  margin-top:4px;
+  margin-right:8px;
+  cursor: pointer;
+  color: #000;
+  transition: 0.3s;
+  &:hover,
+  &:active,
+  &:focus  {
+    color: #fff;
+  }
 `;
 
 export const Card = styled.div`
-  min-height: ${(props) => props.height ? props.height : '90px'};
+  min-height: ${(props) => props.height ? props.height : '100px'};
   padding: 8px; 
   margin: 8px;
   font-weight: 400;
-
+  
   flex-direction: column;
   justify-content: center;
   align-items: center

@@ -16,7 +16,8 @@ import {AppWrapper,
         Card,
         Anchor,
         DefaultContent,
-        GitIconWrapper,
+        GitIconContainer,
+        GitLinkWrapper,
         SpinnerWrapper
         } from '../components/common/styles'
 import '../app.css';
@@ -106,10 +107,12 @@ class App extends Component {
     return (
       <AppWrapper>
         <AppHeader>
-          <GitIconWrapper className="pull-right"  href="https://github.com/Daskott/PickOne" target="_blank" rel="noopener noreferrer">
-            <i className="fa fa-github fa-2x" aria-hidden="true"></i>
-          </GitIconWrapper>
-          {<h4 className="search-title">Pick a nearby place to go eat!</h4>}  
+          <GitIconContainer>
+            <GitLinkWrapper href="https://github.com/Daskott/PickOne" target="_blank" rel="noopener noreferrer">
+              <i className="fa fa-github fa-3x" aria-hidden="true"></i>
+            </GitLinkWrapper>
+          </GitIconContainer>
+          {<h3 className="search-title">Pick a nearby place to go eat!</h3>}  
           <SearchBar onSearch={this.handleSearch}/>
         </AppHeader>
         <NavBar>
@@ -148,7 +151,7 @@ class App extends Component {
 
           {!fetchPlacesStatus.error && places.length <= 0 && !isLoading? 
             <DefaultContent>
-              <p>Picking a restautrant doesn't have to be difficult</p>
+              <p>Picking a restautrant doesn't have to be difficult.</p>
               <p>Give me a try <span  role="img" aria-label="smile and point up">😁👆</span></p>
             </DefaultContent> : null
           }
