@@ -106,7 +106,7 @@ class App extends Component {
     return (
       <AppWrapper>
         <AppHeader>
-          <GitIconWrapper className="pull-right"  href="https://github.com/Daskott" target="_blank" rel="noopener noreferrer">
+          <GitIconWrapper className="pull-right"  href="https://github.com/Daskott/PickOne" target="_blank" rel="noopener noreferrer">
             <i className="fa fa-github fa-2x" aria-hidden="true"></i>
           </GitIconWrapper>
           {<h4 className="search-title">Pick a nearby place to go eat!</h4>}  
