@@ -26,8 +26,8 @@ class Place extends React.Component {
         this.setState({flipCard: nextProps.flipCard});
     }
 
-    handleFlipCard = () => {
-        this.setState({flipCard: !this.state.flipCard});
+    handleUncoverCard = () => {
+        this.setState({flipCard: false});
     }
 
     render() {
@@ -43,7 +43,7 @@ class Place extends React.Component {
         const flipClass = this.state.flipCard ? ' flip' : '';
  
         return (
-            <div className={`flip-container place-container${flipClass}`} onClick={this.handleFlipCard}>
+            <div className={`flip-container place-container${flipClass}`} onClick={this.handleUncoverCard}>
                 <div className="flipper">
                     <Card className="front place">
                         <span className="pull-right label label-default">{String(this.props.place.rating).length < 3? `${place.rating}.0`: place.rating}</span>
