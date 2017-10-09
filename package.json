@@ -3,12 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",
+  "homepage": "https://daskott.github.io/PickOne/",
   "dependencies": {
     "@google/maps": "^0.4.3",
     "bootstrap": "^3.3.7",
     "dotenv": "^4.0.0",
     "eslint": "^4.7.1",
     "express": "^4.16.1",
+    "gh-pages": "^1.0.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-run": "^1.7.1",
+    "gulp-watch": "^4.3.11",
+    "morgan": "^1.9.0",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^16.0.0",
@@ -20,12 +27,7 @@
     "react-transition-group": "^2.2.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "styled-components": "^2.1.2",
-    "gulp": "^3.9.1",
-    "gulp-nodemon": "^2.2.1",
-    "gulp-run": "^1.7.1",
-    "gulp-watch": "^4.3.11",
-    "morgan": "^1.9.0"
+    "styled-components": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,7 +35,9 @@
     "dev-server": "gulp",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

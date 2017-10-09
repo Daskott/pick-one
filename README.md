@@ -18,7 +18,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `npm run server`
+### `npm run dev-server`
 
 Start the backened server.<br>
 at [http://localhost:5000](http://localhost:5000) for api calls,
