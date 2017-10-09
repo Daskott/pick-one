@@ -1,3 +1,6 @@
+A simple web application built with react and google maps api, to help
+you pick a restaurant :)
+
 ## Getting Started
 * Clone the project
 * `npm install` to install project dependencies
