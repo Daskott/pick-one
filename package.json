@@ -24,7 +24,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "server": "gulp",
+    "server": "node server",
+    "dev-server": "gulp",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
