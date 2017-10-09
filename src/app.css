@@ -35,7 +35,6 @@ html, body, #root {
 
 .place-container{
   margin: 12px 0px;
-  cursor: pointer;
 }
 .place{ padding-top:10px; margin:4; margin-bottom: -1px;}
 .place-list{
@@ -183,6 +182,7 @@ html, body, #root {
   margin-top: -0.1px; /*HACK */
   color: #fff;
   font-weight: bold; 
+  cursor: pointer;
   transform: rotateY(180deg);
   
   /* Background pattern from Subtle Patterns <https://www.toptal.com/designers/subtlepatterns/> */
