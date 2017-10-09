@@ -5,7 +5,6 @@ import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import lunchifyReducer from './redux/reducers';
 import App from './containers/app';
-import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(
     lunchifyReducer,
@@ -21,4 +20,3 @@ ReactDOM.render(
     <Provider store={store}>
         <App />
     </Provider>, document.getElementById('root'));
-// registerServiceWorker();

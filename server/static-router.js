@@ -9,4 +9,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 });
 
+// Always return the main index.html on 404 error
+app.use((req, res, next) => {
+  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+});
+
 module.exports = app;

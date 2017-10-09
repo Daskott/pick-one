@@ -1,6 +1,7 @@
 import React from 'react';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import CSSTransition from 'react-transition-group/CSSTransition';
+import { Card } from '../components/common/styles'
 
 function Image(props){
     return (
@@ -44,16 +45,16 @@ class Place extends React.Component {
         return (
             <div className={`flip-container place-container${flipClass}`} onClick={this.handleFlipCard}>
                 <div className="flipper">
-                    <div className="card front place">
+                    <Card className="front place">
                         <span className="pull-right label label-default">{String(this.props.place.rating).length < 3? `${place.rating}.0`: place.rating}</span>
                         <Image url={iconUrl} alt={this.props.place.name}/>
                         <span className="place-item place-name">{this.props.place.name}</span>
                         <span className="place-item place-address">{this.props.place.vicinity}</span>
                         { hoursElement }
-                    </div>
-                    <div className="card back place">
+                    </Card>
+                    <Card className="back place">
                         {/** **/}
-                    </div>
+                    </Card>
                 </div>
             </div>
         )

@@ -1,23 +1,14 @@
 {
-  "name": "lunchify",
+  "name": "pickone",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
     "@google/maps": "^0.4.3",
-    "axios": "^0.16.2",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.1",
     "bootstrap": "^3.3.7",
     "dotenv": "^4.0.0",
     "eslint": "^4.7.1",
-    "express": "^4.15.4",
-    "express-jwt": "^5.3.0",
-    "jsonwebtoken": "^8.0.1",
-    "morgan": "^1.8.2",
-    "mysql2": "^1.4.2",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
+    "express": "^4.16.1",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^16.0.0",
@@ -29,12 +20,11 @@
     "react-transition-group": "^2.2.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "sequelize": "^4.13.5",
-    "store": "^2.0.12",
     "styled-components": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
+    "server": "gulp",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
@@ -45,6 +35,7 @@
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.2.1",
     "gulp-run": "^1.7.1",
-    "gulp-watch": "^4.3.11"
+    "gulp-watch": "^4.3.11",
+    "morgan": "^1.9.0"
   }
 }

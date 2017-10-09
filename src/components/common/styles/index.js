@@ -64,6 +64,28 @@ export const NavButton = styled.span`
   }
 `;
 
+export const DefaultContent = styled.div`
+  margin-top: 20px;
+  height: 50%;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+`;
+
+export const GitIconWrapper = styled.a`
+display: inline-block;
+cursor: pointer;
+margin:4px;
+margin-right:8px;
+color: #000;
+transition: 0.3s;
+&:hover,
+&:active,
+&:focus  {
+  color: #fff;
+}
+`;
+
 export const Card = styled.div`
   min-height: ${(props) => props.height ? props.height : '90px'};
   padding: 8px; 

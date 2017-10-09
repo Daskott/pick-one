@@ -15,6 +15,8 @@ import {AppWrapper,
         NavButton,
         Card,
         Anchor,
+        DefaultContent,
+        GitIconWrapper,
         SpinnerWrapper
         } from '../components/common/styles'
 import '../app.css';
@@ -93,7 +95,6 @@ class App extends Component {
     const { places, fetchPlacesStatus, randomPlaceIndex} = this.props;
     const { isLoadingLocation, error, flipCards, showRandomPlace} = this.state;
     const isLoading = (isLoadingLocation || fetchPlacesStatus.loading) && !error;
-    const currentAddress = this.props.location ? this.props.location.address : null;
 
     let PlaceListComponent = null;
     if (showRandomPlace){ 
@@ -105,13 +106,11 @@ class App extends Component {
     return (
       <AppWrapper>
         <AppHeader>
-          
-          {<h3 className="search-title">Pick a nearby place to go eat!</h3>}  
-
-          <SearchBar 
-            onSearch={this.handleSearch} 
-            currentAddress={currentAddress} 
-            error={fetchPlacesStatus.error}/>
+          <GitIconWrapper className="pull-right"  href="https://github.com/Daskott" target="_blank" rel="noopener noreferrer">
+            <i className="fa fa-github fa-2x" aria-hidden="true"></i>
+          </GitIconWrapper>
+          {<h4 className="search-title">Pick a nearby place to go eat!</h4>}  
+          <SearchBar onSearch={this.handleSearch}/>
         </AppHeader>
         <NavBar>
           <NavButton 
@@ -148,10 +147,10 @@ class App extends Component {
           </div>
 
           {!fetchPlacesStatus.error && places.length <= 0 && !isLoading? 
-            <div className="default-content">
-              <p>Picking a restautrant doesn't have to be hard</p>
+            <DefaultContent>
+              <p>Picking a restautrant doesn't have to be difficult</p>
               <p>Give me a try <span  role="img" aria-label="smile and point up">😁👆</span></p>
-            </div> : null
+            </DefaultContent> : null
           }
         </AppBody>
       </AppWrapper>
